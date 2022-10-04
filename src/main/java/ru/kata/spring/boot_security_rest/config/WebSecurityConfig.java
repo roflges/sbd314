@@ -1,4 +1,4 @@
-package ru.kata.spring.boot_security.demo.config;
+package ru.kata.spring.boot_security_rest.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -10,7 +10,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import ru.kata.spring.boot_security.demo.service.UserServiceImpl;
+import ru.kata.spring.boot_security_rest.service.UserServiceImpl;
 
 @Configuration
 @EnableWebSecurity
@@ -24,13 +24,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http
-                .authorizeRequests()
+        http.csrf().disable()
+            .authorizeRequests()
                 .antMatchers("/main/**").authenticated()
-                .and()
+            .and()
                 .formLogin().loginPage("/").loginProcessingUrl("/perform-login").successForwardUrl("/main")
                 .permitAll()
-                .and()
+            .and()
                 .logout()
                 .permitAll();
     }
